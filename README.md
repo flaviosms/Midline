@@ -42,4 +42,7 @@
      http://electrofriends.com/source-codes/software-programs/c/graphics/c-program-to-for-midpoint-line-algorithm/
      
    Some issues were found on this code mostly on drawing on all octants,one big change was the necessary division between the 4 quartets  into two groups , the main diagonal group and the inverted diagonal this was implemented through an if in the start of the function , checking if dx and dy had the same signal.
+   
    Other than that , was necessary to implement the color interpolation algorithm asked in the assignment.
+ ### Creating DrawTriangle()
+  Drawing Triangles is pretty simple when you already have the Drawline() function , you just have 3 points and connect them with each other through 3 lines . The function to fill in the Triangle which has the same name but different number os atributes is not working properly , it does work only for Triangle Rectangle types of triangles. But it is a work in progress.
