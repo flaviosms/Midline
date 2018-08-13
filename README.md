@@ -38,6 +38,8 @@
    
   ### Creating Drawline()
    The Drawline function was created as said before with the midline point algorithm as base , the implementation was adapted from:
-   http://electrofriends.com/source-codes/software-programs/c/graphics/c-program-to-for-midpoint-line-algorithm/
+   
+     http://electrofriends.com/source-codes/software-programs/c/graphics/c-program-to-for-midpoint-line-algorithm/
+     
    Some issues were found on this code mostly on drawing on all octants,one big change was the necessary division between the 4 quartets  into two groups , the main diagonal group and the inverted diagonal this was implemented through an if in the start of the function , checking if dx and dy had the same signal.
    Other than that , was necessary to implement the color interpolation algorithm asked in the assignment.
