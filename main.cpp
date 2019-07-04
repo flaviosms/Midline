@@ -6,9 +6,13 @@ void MyGlDraw(void)
 	//*************************************************************************
 	// Chame aqui as funções do mygl.h
 	//*************************************************************************
-	DrawRandomLines();
+	//DrawLine(1,10,red,256,256,green);
+	//DrawRandomLines();
     //DrawAxis();
-    //DrawTriangle(250,0,red,250,450,red,400,450,red);
+    srand(time(NULL));
+    Color cor ={rand()%255,rand()%255,rand()%255,rand()%255};
+    DrawTriangle(250,0,cor,125,500,cor,250,250,cor,true,cor);
+    DrawTriangle(250,0,cor,375,500,cor,250,250,cor,true,cor);
 }
 
 //-----------------------------------------------------------------------------

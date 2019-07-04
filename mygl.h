@@ -1,6 +1,7 @@
 #ifndef _MYGL_H_
 #define _MYGL_H_
 
+#include <iostream>
 #include "definitions.h"
 #include <math.h>
 #include <stdlib.h>     /* srand, rand */
@@ -16,8 +17,9 @@ struct Color {
     int A;
 };
 Color yellow = {255,255,0,255};
-Color green = {0,255,0,255};
 Color red = {255,0,0,255};
+Color green = {0,255,0,255};
+Color blue = {0,0,255,255};
 struct Line {
     int x0;
     int y0;
@@ -133,16 +135,16 @@ else{
     int incr_ne = 2*(dy-dx);
     int x=x0;
     int y=y0;
-    PutPixel(y,x,colorFunc(x,y,linha));
     while(x<x1){
+        if(changeaxis){PutPixel(y,x,colorFunc(x,y,linha));}
+        else{PutPixel(x,y,colorFunc(x,y,linha));}
         if(d<=0){d+=incr_e;}
         else{
             d +=incr_ne;
             y++;
         }
         x++;
-        if(changeaxis){PutPixel(y,x,colorFunc(x,y,linha));}
-        else{PutPixel(x,y,colorFunc(x,y,linha));}
+
     }
 }
 return;
@@ -154,6 +156,8 @@ void DrawRandomLines(){
 }
 
 void DrawAxis(){
+
+
     DrawLine(250,250,yellow,500,500,yellow);
     DrawLine(250,250,yellow,0,0,yellow);
     DrawLine(250,250,yellow,250,0,yellow);
@@ -171,11 +175,57 @@ void DrawAxis(){
     DrawLine(250,250,green,500,200,green);
     DrawLine(250,250,green,0,300,green);
 }
-void DrawTriangle(int x0,int y0,Color color0,int x1,int y1,Color color1,int x2,int y2,Color color2){
+
+bool edgeFunction(int x0,int y0,int x1,int y1,int x2,int y2)  {
+     return ((x2 - x0) * (y1 - y0) - (y2- y0) * (x1 - x0) >= 0);  }
+
+void DrawTriangle(int x0,int y0,Color color0,int x1,int y1,Color color1,int x2,int y2,Color color2,bool fill,Color fillcolor){
     DrawLine(x0,y0,color0,x1,y1,color1);
     DrawLine(x0,y0,color0,x2,y2,color2);
     DrawLine(x1,y1,color1,x2,y2,color2);
+    if(fill){
+        int xmin=std::min(x0,std::min(x1,x2));
+        int xmax=std::max(x0,std::max(x1,x2));
+        int ymin=std::min(y0,std::min(y1,y2));
+        int ymax=std::max(y0,std::max(y1,y2));
+
+        for(int xf=xmin;xf<xmax;xf++){
+            for(int yf=ymin;yf<ymax;yf++){
+                bool inside = true;
+                inside &= edgeFunction(x0,y0,x1,y1,xf,yf);
+                inside &= edgeFunction(x1,y1,x2,y2,xf,yf);
+                inside &= edgeFunction(x2,y2,x0,y0,xf,yf);
+                if (inside == true) {
+                    PutPixel(xf,yf,fillcolor);
+                }
+            }
+        }
+    }
 }
+
+void DrawTriangle(int x0,int y0,Color color0,int x1,int y1,Color color1,int x2,int y2,Color color2,bool fill){
+    DrawLine(x0,y0,color0,x1,y1,color1);
+    DrawLine(x0,y0,color0,x2,y2,color2);
+    DrawLine(x1,y1,color1,x2,y2,color2);
+    if(fill){
+        int xmin=std::min(x0,std::min(x1,x2));
+        int xmax=std::max(x0,std::max(x1,x2));
+        int ymin=std::min(y0,std::min(y1,y2));
+        int ymax=std::max(y0,std::max(y1,y2));
+        for(int xf=xmin;xf<xmax;xf++){
+            for(int yf=ymin;yf<ymax;yf++){
+                bool inside = true;
+                inside &= edgeFunction(x0,y0,x1,y1,xf,yf);
+                inside &= edgeFunction(x1,y1,x2,y2,xf,yf);
+                inside &= edgeFunction(x2,y2,x0,y0,xf,yf);
+                if (inside == true) {
+                    PutPixel(xf,yf,blue);
+                }
+            }
+        }
+    }
+}
+
 #endif // _MYGL_H_
 /*void fill(int x0,int y0,Color color0,int x1,int y1,Color color1,int x2,int y2,Color color2){
     int xmin=std::min(x0,std::min(x1,x2));
