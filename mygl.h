@@ -192,9 +192,8 @@ void DrawTriangle(int x0,int y0,Color color0,int x1,int y1,Color color1,int x2,i
         for(int xf=xmin;xf<xmax;xf++){
             for(int yf=ymin;yf<ymax;yf++){
                 bool inside = true;
-                inside &= edgeFunction(x0,y0,x1,y1,xf,yf);
-                inside &= edgeFunction(x1,y1,x2,y2,xf,yf);
-                inside &= edgeFunction(x2,y2,x0,y0,xf,yf);
+                inside &= edgeFunction(x0,y0,x1,y1,xf,yf)&&edgeFunction(x1,y1,x2,y2,xf,yf)&&edgeFunction(x2,y2,x0,y0,xf,yf)
+                || !edgeFunction(x0,y0,x1,y1,xf,yf)&&!edgeFunction(x1,y1,x2,y2,xf,yf)&&!edgeFunction(x2,y2,x0,y0,xf,yf);
                 if (inside == true) {
                     PutPixel(xf,yf,fillcolor);
                 }
@@ -215,9 +214,8 @@ void DrawTriangle(int x0,int y0,Color color0,int x1,int y1,Color color1,int x2,i
         for(int xf=xmin;xf<xmax;xf++){
             for(int yf=ymin;yf<ymax;yf++){
                 bool inside = true;
-                inside &= edgeFunction(x0,y0,x1,y1,xf,yf);
-                inside &= edgeFunction(x1,y1,x2,y2,xf,yf);
-                inside &= edgeFunction(x2,y2,x0,y0,xf,yf);
+                inside &= edgeFunction(x0,y0,x1,y1,xf,yf)&&edgeFunction(x1,y1,x2,y2,xf,yf)&&edgeFunction(x2,y2,x0,y0,xf,yf)
+                || !edgeFunction(x0,y0,x1,y1,xf,yf)&&!edgeFunction(x1,y1,x2,y2,xf,yf)&&!edgeFunction(x2,y2,x0,y0,xf,yf);
                 if (inside == true) {
                     PutPixel(xf,yf,blue);
                 }
@@ -226,52 +224,44 @@ void DrawTriangle(int x0,int y0,Color color0,int x1,int y1,Color color1,int x2,i
     }
 }
 
+void DrawRandomTriangles(){
+    srand(time(NULL));
+    Color cor ={rand()%255,rand()%255,rand()%255,rand()%255};
+    DrawTriangle(rand()%512,rand()%512,cor,rand()%512,rand()%512,cor,rand()%512,rand()%512,cor,true,cor);
+}
+
+float Distance(int x0,int y0, int x1, int y1){
+    return pow(pow(x1-x0,2)+pow(y1-y0,2),0.5);
+}
+
+void DrawCircle(int x0,int y0,float r,Color color0){
+    for(int xf=x0-r;xf<x0+r;xf++){
+        for(int yf=y0-r;yf<y0+r;yf++){
+            if(Distance(xf,yf,x0,y0)<r){
+                PutPixel(xf,yf,color0);
+            }
+        }
+    }
+}
+
+void DrawCircle(int x0,int y0,float r0,float r1,Color color0){
+    int rmin=std::min(r0,r1);
+    int rmax=std::max(r0,r1);
+    for(int xf=x0-rmax;xf<x0+rmax;xf++){
+        for(int yf=y0-rmax;yf<y0+rmax;yf++){
+            if(Distance(xf,yf,x0,y0)<rmax && Distance(xf,yf,x0,y0)>rmin){
+                PutPixel(xf,yf,color0);
+            }
+        }
+    }
+}
+
+void DrawRandomCircles(){
+    srand(time(NULL));
+    Color cor ={rand()%255,rand()%255,rand()%255,rand()%255};
+    DrawCircle(rand()%312+100,rand()%312+100,rand()%100,cor);
+}
+
 #endif // _MYGL_H_
-/*void fill(int x0,int y0,Color color0,int x1,int y1,Color color1,int x2,int y2,Color color2){
-    int xmin=std::min(x0,std::min(x1,x2));
-    Color corobj,corenc;
-    int x,y;
-    if(xmin==x0){
-        corobj=color0;
-        corenc=color0;
-        corenc.A--;
-        for(;corobj.R!=corenc.R&&corobj.G!=corenc.G&&corobj.B!=corenc.B&&corobj.A!=corenc.A;x++){
-            for(;corobj.R!=corenc.R&&corobj.G!=corenc.G&&corobj.B!=corenc.B&&corobj.A!=corenc.A;y++){
-                PutPixel(x,y-1,corobj);
-                corenc.R=FBptr[x*4+y*IMAGE_WIDTH*4]; // componente R
-                corenc.G=FBptr[x*4+1+y*IMAGE_WIDTH*4]; // componente G
-                corenc.B=FBptr[x*4+2+y*IMAGE_WIDTH*4]; // componente B
-                corenc.A=FBptr[x*4+3+y*IMAGE_WIDTH*4]; // componente A
-            }
-        }
-    }
-    if(xmin==x1){
-        corobj=color1;
-        corenc=color1;
-        corenc.A--;
-        for(;corobj.R!=corenc.R&&corobj.G!=corenc.G&&corobj.B!=corenc.B&&corobj.A!=corenc.A;x++){
-            for(;corobj.R!=corenc.R&&corobj.G!=corenc.G&&corobj.B!=corenc.B&&corobj.A!=corenc.A;y++){
-                PutPixel(x,y-1,corobj);
-                corenc.R=FBptr[x*4+y*IMAGE_WIDTH*4]; // componente R
-                corenc.G=FBptr[x*4+1+y*IMAGE_WIDTH*4]; // componente G
-                corenc.B=FBptr[x*4+2+y*IMAGE_WIDTH*4]; // componente B
-                corenc.A=FBptr[x*4+3+y*IMAGE_WIDTH*4]; // componente A
-            }
-        }
-    }
-    if(xmin==x2){
-        corobj=color2;
-        corenc=color2;
-        corenc.A--;
-        for(;corobj.R!=corenc.R&&corobj.G!=corenc.G&&corobj.B!=corenc.B&&corobj.A!=corenc.A;x++){
-            for(;corobj.R!=corenc.R&&corobj.G!=corenc.G&&corobj.B!=corenc.B&&corobj.A!=corenc.A;y++){
-                PutPixel(x,y-1,corobj);
-                corenc.R=FBptr[x*4+y*IMAGE_WIDTH*4]; // componente R
-                corenc.G=FBptr[x*4+1+y*IMAGE_WIDTH*4]; // componente G
-                corenc.B=FBptr[x*4+2+y*IMAGE_WIDTH*4]; // componente B
-                corenc.A=FBptr[x*4+3+y*IMAGE_WIDTH*4]; // componente A
-            }
-        }
-    }
-}*/
+
 
