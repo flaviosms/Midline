@@ -44,7 +44,9 @@
  ### Creating DrawTriangle()
   Drawing Triangles is pretty simple when you already have the Drawline() function , you just have 3 points and connect them with each other through 3 lines .
   The algorithm to Fill the triangles was done using this article as reference:
-  https://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/rasterization-stage
+  
+    https://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/rasterization-stage
+  
   In the last two parameters of the DrawTriangle() function there is a bool and a color wich refer to the filling of the triangle , if you only pass the bool parameter the triangle will be filled with the arbritrary color Blue as default.
 
 ### Creating DrawCircle()
