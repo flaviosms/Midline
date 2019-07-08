@@ -12,13 +12,10 @@
   
    Here I randomized the endpoint of the lines to create an intersting pattern.
   
-### Drawing Triangles
-  ![Triangles drawn with the DrawTriangle function one filled up and the other only the borders](https://github.com/flaviosms/Pipeline/blob/master/Triangles.JPG)
+### Drawing Triangles and Circles
+  ![Triangles and Circles Drawn with the DrawTriangle() Function and DrawCircle() Function](https://github.com/flaviosms/Pipeline/blob/master/TrianglesAndCircles.JPG)
   
-   Here i used the DrawTriangle() function , which has 2 ways of being called ,
-   one that recieves 3 colors and the other that receives one ,the one that gets one color is
-   filled up with that color ,the one that receives 3 colors will draw 3 lines and interpolate
-   the colors between them.
+   Here i used the DrawTriangle() function to draw filled and unfilled triangles and the DrawCircle() function wich is used to print filled circles and circles with a hole in them.
   
 # Metodology
   
@@ -45,4 +42,10 @@
    
    Other than that , was necessary to implement the color interpolation algorithm asked in the assignment.
  ### Creating DrawTriangle()
-  Drawing Triangles is pretty simple when you already have the Drawline() function , you just have 3 points and connect them with each other through 3 lines . The function to fill in the Triangle which has the same name but different number os atributes is not working properly , it does work only for Triangle Rectangle types of triangles. But it is a work in progress.
+  Drawing Triangles is pretty simple when you already have the Drawline() function , you just have 3 points and connect them with each other through 3 lines .
+  The algorithm to Fill the triangles was done using this article as reference:
+  https://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/rasterization-stage
+  In the last two parameters of the DrawTriangle() function there is a bool and a color wich refer to the filling of the triangle , if you only pass the bool parameter the triangle will be filled with the arbritrary color Blue as default.
+
+### Creating DrawCircle()
+  Drawing the circles was done through brute force, using the euclidian distance we could calculate if a point was in the range of a radius given a initial point.
